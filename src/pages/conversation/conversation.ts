@@ -21,4 +21,8 @@ export class ConversationPage {
     console.log('ionViewDidLoad ConversationPage');
   }
 
+  goBack(){
+    this.navCtrl.pop();
+  }
+
 }
