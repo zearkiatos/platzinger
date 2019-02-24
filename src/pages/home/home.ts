@@ -10,7 +10,7 @@ import { LoginPage } from '../login/login';
 export class HomePage {
 
   constructor(public navCtrl: NavController) {
-
+    console.log("Ok");
   }
 
   goToConversation(){

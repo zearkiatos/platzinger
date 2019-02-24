@@ -11,6 +11,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { LoginPage } from '../pages/login/login';
 import { ConversationPage } from '../pages/conversation/conversation';
 import { ProfilePage } from '../pages/profile/profile';
+import { AboutPage } from '../pages/about/about';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { ProfilePage } from '../pages/profile/profile';
     ListPage,
     LoginPage,
     ConversationPage,
-    ProfilePage
+    ProfilePage,
+    AboutPage
   ],
   imports: [
     BrowserModule,
@@ -32,7 +34,8 @@ import { ProfilePage } from '../pages/profile/profile';
     ListPage,
     LoginPage,
     ConversationPage,
-    ProfilePage
+    ProfilePage,
+    AboutPage
   ],
   providers: [
     StatusBar,
