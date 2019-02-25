@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { ConversationPage } from '../conversation/conversation';
 import { LoginPage } from '../login/login';
+import { IUser } from '../../app/interfaces/IUser';
 
 @Component({
   selector: 'page-home',
@@ -10,26 +11,38 @@ import { LoginPage } from '../login/login';
 export class HomePage {
 
   constructor(public navCtrl: NavController) {
-    let c:number = 1;
-    let b:number = 2;
-    let e:string = "1";
-    let f:string = "2";
-    let g:boolean = true;
-    let h:object = {};
-    console.log(g);
-    console.log(h);
+    let myUser:IUser={
+      nick:"Pedro",
+      email: "caprilespe@outlook.com",
+      friend: true,
+      uid: 1
+    };
+    console.log(myUser);
 
-    let i = [c,b,e,f,g,h];
+    let users: IUser[] = [
+      myUser
+    ];
 
-    console.log(i);
+    // let c:number = 1;
+    // let b:number = 2;
+    // let e:string = "1";
+    // let f:string = "2";
+    // let g:boolean = true;
+    // let h:object = {};
+    // console.log(g);
+    // console.log(h);
 
-    let j: boolean [] = [true,g];
+    // let i = [c,b,e,f,g,h];
 
-    console.log(j);
+    // console.log(i);
 
-    let k: object[] = [{},h];
+    // let j: boolean [] = [true,g];
 
-    let l: any[] = [1,'string',{},[]];
+    // console.log(j);
+
+    // let k: object[] = [{},h];
+
+    // let l: any[] = [1,'string',{},[]];
   }
 
   goToConversation(){
