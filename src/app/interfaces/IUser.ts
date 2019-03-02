@@ -6,4 +6,5 @@ export interface IUser {
     email:string;
     friend:boolean;
     uid:any;
+    statusId:number;
 }

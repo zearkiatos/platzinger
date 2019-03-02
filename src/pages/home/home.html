@@ -8,19 +8,47 @@
 </ion-header>
 
 <ion-content padding>
- <button ion-button (click)="goToConversation()">Ir a las Conversaciones</button>
- <button ion-button (click)="goToLogin()">Ir al Inicio de Sesión</button> <br />
- <b>Amigos</b>
- <ng-container *ngFor="let user of friends; let i = index">
-  <p *ngIf="user.friend" >
-    {{i}} -  {{user.nick}} - {{user.email}}
-</ng-container>
+  <ion-input type="text" placeholder="Buscar Amigo" [(ngModel)]="query"></ion-input>
 
-<b>No Agregados</b>
+  <ion-list>
+      <ion-list-header class="hydrated">
+          Amigos
+      </ion-list-header>
+
+      <ng-container *ngFor="let user of friends | search:query; let i = index">
+           <ion-item  (click)="goToConversation(user)" >
+
+              <ion-label>
+                <h2 class="platzinger-ion-item">
+                    <ng-container *ngFor="let userStatus of status">
+                        <ion-icon *ngIf = "user.statusId == userStatus.id" name="{{userStatus.icon}}" [ngStyle]="{'color':userStatus.color}"></ion-icon>
+                    </ng-container>
+                  {{user.nick}}
+                </h2>
+                <h3> {{user.email}}</h3>
+              </ion-label>
+            </ion-item>
+            
+      </ng-container>
+     
+    </ion-list>
+ <!-- <button ion-button (click)="goToConversation()">Ir a las Conversaciones</button>
+ <button ion-button (click)="goToLogin()">Ir al Inicio de Sesión</button> <br /> -->
+ <!-- <b>Amigos</b>
+ <ng-container *ngFor="let user of friends | search:query; let i = index">
+   <div (click)="goToConversation(user)">
+     <ng-container *ngFor="let userStatus of status">
+        <ion-icon *ngIf = "user.statusId == userStatus.id" name="{{userStatus.icon}}" [ngStyle]="{'color':userStatus.color}"></ion-icon>
+     </ng-container>
+       -  {{user.nick}} - {{user.email}}
+  </div>
+</ng-container> -->
+
+<!-- <b>No Agregados</b>
 <ng-container *ngFor="let user of friends; let i = index">
 
     <p *ngIf="!user.friend" >
       {{i}} -  {{user.nick}} - {{user.email}}
-  </ng-container>
+  </ng-container> -->
 
 </ion-content>
