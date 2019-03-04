@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { IUser } from '../../app/interfaces/IUser';
+import { Status } from '../../models/status';
 
 /**
  * Generated class for the ConversationPage page.
@@ -11,14 +12,16 @@ import { IUser } from '../../app/interfaces/IUser';
 
 @Component({
   selector: 'page-conversation',
-  templateUrl: 'conversation.html',
+  templateUrl: 'conversation.html'
 })
 export class ConversationPage {
   public friend:IUser;
+  public status:Status;
   public price:number=76.8874934768364;
   public today:any= Date.now();
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.friend = this.navParams.data['user'];
+
   }
 
   ionViewDidLoad() {

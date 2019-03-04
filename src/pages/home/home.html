@@ -4,12 +4,53 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Home</ion-title>
+    <ion-buttons end>
+        <button ion-button icon-only color="royal">
+          <img src="../../assets/imgs/logo_live_add.png" class="iconInButton" alt="">
+        </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <ion-input type="text" placeholder="Buscar Amigo" [(ngModel)]="query"></ion-input>
+<ion-content padding class="backgroundPlatzinger">
+  <ion-grid id="homeMeContainer">
+    <ion-row>
+      <ion-col col-3>
+        <div class="avatarFrameOnline">
+            <img src="../../assets/imgs/generic_avatar.png" class="avatarImg img-fluid" />
+        </div>
+      </ion-col>
+      <ion-col ion-col-9>
+        Nick <br />
+        <small>Subnick</small> <br />
+        <small><b>caprilespe@outlook.com</b></small>
+      </ion-col>
 
+    </ion-row>
+  </ion-grid>
+  <div class="searchBoxContainer">
+      <ion-input type="text" placeholder="Buscar Amigo" [(ngModel)]="query"></ion-input>
+  </div>
+
+  <div>
+      <div>
+          <b>Amigos</b>
+        </div>
+        <div class="contactListItem" [ngClass]="{'contactOffline':user.status == 'Offline' || user.status=='AppearOffline'}" [ngStyle]="{'color':user.status == 'Offline' || user.status=='AppearOffline'?'red':'blue'}" *ngFor="let user of friends | search:query" (click)="goToConversation(user)">
+          <img src="../../assets/imgs/logo_live_online.png" class="status" alt="">
+          <b>{{user.name}}</b>
+          <small *ngIf="user.status">{{user.status}}</small>
+        </div>
+  </div>
+
+
+
+
+
+
+  <!-- <div padding>
+
+  </div>
   <ion-list>
       <ion-list-header class="hydrated">
           Amigos
@@ -31,7 +72,7 @@
             
       </ng-container>
      
-    </ion-list>
+    </ion-list> -->
  <!-- <button ion-button (click)="goToConversation()">Ir a las Conversaciones</button>
  <button ion-button (click)="goToLogin()">Ir al Inicio de Sesión</button> <br /> -->
  <!-- <b>Amigos</b>

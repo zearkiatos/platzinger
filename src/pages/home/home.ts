@@ -1,25 +1,23 @@
-import { StatusService } from './../../services/status.service';
 import { Component, Output } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { ConversationPage } from '../conversation/conversation';
 import { LoginPage } from '../login/login';
 import { IUser } from '../../app/interfaces/IUser';
 import { UserService } from '../../services/user.service';
-import { Status } from '../../models/status';
+import { Status } from '../../enum/status';
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
-  providers:[UserService, StatusService]
+  providers:[UserService]
 })
 export class HomePage {
 
   friends:IUser[];
-  status:Status[];
+  status:Status;
   @Output() query:string;
-  constructor(public navCtrl: NavController, private userService:UserService, private statusService:StatusService) {
+  constructor(public navCtrl: NavController, private userService:UserService) {
     this.friends = this.userService.getFriends();
-    this.status = this.statusService.getStatus();
     // let c:number = 1;
     // let b:number = 2;
     // let e:string = "1";
