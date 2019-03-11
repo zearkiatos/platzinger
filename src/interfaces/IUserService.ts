@@ -2,9 +2,12 @@ import { IUser } from "../app/interfaces/IUser";
 
 export interface IUserService{
 
-    friends:IUser[];
 
-    getFriends():IUser[];
-
-    getFriendById(id:number):IUser;
+    getUsers();
+  
+    getUserById(id:number);
+  
+    createUser(user);
+  
+    editUser(user);
 }

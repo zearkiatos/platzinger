@@ -1,3 +1,4 @@
+import { RegisterPage } from './../pages/register/register';
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
@@ -14,7 +15,21 @@ import { ProfilePage } from '../pages/profile/profile';
 import { AboutPage } from '../pages/about/about';
 import { ServicesUserProvider } from '../providers/services-user/services-user';
 import { SearchPipe } from '../pipes/search';
+import {AngularFireModule} from '@angular/fire';
+import {AngularFireDatabaseModule} from '@angular/fire/database';
+import {AngularFireAuthModule} from '@angular/fire/auth';
 import { FormsModule } from '@angular/forms';
+import { Base64 } from '@ionic-native/base64';
+import {AngularFirestore,AngularFirestoreCollection } from 'angularfire2/firestore';
+
+export const firebaseConfig = {
+  apiKey: "AIzaSyBHCs_k9r54Rxah2R6PPAs1taYLFDvzyx0",
+  authDomain: "platzinger-2ba00.firebaseapp.com",
+  databaseURL: "https://platzinger-2ba00.firebaseio.com",
+  projectId: "platzinger-2ba00",
+  storageBucket: "platzinger-2ba00.appspot.com",
+  messagingSenderId: "945864865727"
+};
 
 @NgModule({
   declarations: [
@@ -25,12 +40,16 @@ import { FormsModule } from '@angular/forms';
     ConversationPage,
     ProfilePage,
     AboutPage,
-    SearchPipe
+    SearchPipe,
+    RegisterPage
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    FormsModule
+    FormsModule,
+    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireDatabaseModule,
+    AngularFireAuthModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -40,7 +59,8 @@ import { FormsModule } from '@angular/forms';
     LoginPage,
     ConversationPage,
     ProfilePage,
-    AboutPage
+    AboutPage,
+    RegisterPage
   ],
   providers: [
     StatusBar,
