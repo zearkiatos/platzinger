@@ -21,7 +21,7 @@ export class UserService implements IUserService{
       return this.angularFireDabase.list('/users');
     }
 
-    getUserById(id:number){
+    getUserById(id:string){
       return this.angularFireDabase.object('/users/'+id);
     }
 

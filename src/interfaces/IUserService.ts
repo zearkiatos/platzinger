@@ -5,7 +5,7 @@ export interface IUserService{
 
     getUsers();
   
-    getUserById(id:number);
+    getUserById(id:string);
   
     createUser(user);
   

@@ -11,8 +11,8 @@ page-home {
         text-shadow: 1px 2px 5px white;
       }
       .searchBoxContainer{
-        border: 1px solid #9dd8f4 !important;
-        background: #3bb2ea;
+        border: 0.5px solid #9dd8f4 !important;
+        background: #ffffff;
         padding: 5px;
         margin-bottom: 10px;
       }
@@ -33,4 +33,9 @@ page-home {
           background-color:gray;
           opacity:0.5;
       }
+
+      .avatarImg{
+        width: 64px !important;
+        height:64px !important;
+    }
 }

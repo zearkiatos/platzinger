@@ -23,7 +23,11 @@ export class HomePage {
   @Output() query:string;
   constructor(public navCtrl: NavController, private userService:UserService, public navParams:NavParams) {
     console.log(this.userService.getUserById(navParams.data['uid']));
-    this.model.user= this.userService.getUserById(navParams.data['uid']);
+    if(Global.userAuth){
+      this.model.user = Global.userAuth;
+    }
+    else
+      this.model.user= this.userService.getUserById(navParams.data['uid']);
   }
 
   goToConversation(user:any){

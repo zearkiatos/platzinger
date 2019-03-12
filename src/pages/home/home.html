@@ -16,7 +16,7 @@
   <ion-grid id="homeMeContainer">
     <ion-row>
       <ion-col col-3>
-        <div class="avatarFrameOnline">
+        <div class="avatarFrame avatarFrameOnline">
             <img *ngIf="model.user.photo" src="{{model.user.photo}}"  class="avatarImg img-fluid">
             <img *ngIf="!model.user.photo" src="../../assets/imgs/generic_avatar.png"  class="avatarImg img-fluid">
         </div>
@@ -30,7 +30,7 @@
     </ion-row>
   </ion-grid>
   <div class="searchBoxContainer">
-      <ion-input type="text" placeholder="Buscar Amigo" [(ngModel)]="query"></ion-input>
+      <ion-input type="text" placeholder="Buscar Amigo" style="background-color:#ffffff;" [(ngModel)]="query"></ion-input>
   </div>
 
   <div *ngIf="friends">

@@ -8,4 +8,6 @@ export interface IAuthenticationService{
     getStatus();
 
     logOut();
+
+    loginWithFacebook();
 }
