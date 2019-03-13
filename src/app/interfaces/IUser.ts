@@ -3,10 +3,13 @@ import { Status } from "../../enum/status";
 export interface IUser {
     name:string,
     nick:string;
-    subnick?:string;
+    photo:any;
+    lastName:string;
     age?:number;
     email:string;
-    friend:boolean;
-    uid:any;
+    friend?:boolean;
+    id:any;
     status:Status;
+    active?:boolean;
+    password?:string
 }

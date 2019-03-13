@@ -1,10 +1,12 @@
 import { Component, Output } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { ConversationPage } from '../conversation/conversation';
 import { LoginPage } from '../login/login';
 import { IUser } from '../../app/interfaces/IUser';
 import { UserService } from '../../services/user.service';
 import { Status } from '../../enum/status';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { Global } from '../../commons/global';
 
 @Component({
   selector: 'page-home',
@@ -13,31 +15,19 @@ import { Status } from '../../enum/status';
 })
 export class HomePage {
 
-  friends:IUser[];
+  @Output() friends:any=[];
+  public model:any = {
+    user:{}
+  }
   status:Status;
   @Output() query:string;
-  constructor(public navCtrl: NavController, private userService:UserService) {
-    this.friends = this.userService.getFriends();
-    // let c:number = 1;
-    // let b:number = 2;
-    // let e:string = "1";
-    // let f:string = "2";
-    // let g:boolean = true;
-    // let h:object = {};
-    // console.log(g);
-    // console.log(h);
-
-    // let i = [c,b,e,f,g,h];
-
-    // console.log(i);
-
-    // let j: boolean [] = [true,g];
-
-    // console.log(j);
-
-    // let k: object[] = [{},h];
-
-    // let l: any[] = [1,'string',{},[]];
+  constructor(public navCtrl: NavController, private userService:UserService, public navParams:NavParams) {
+    console.log(this.userService.getUserById(navParams.data['uid']));
+    if(Global.userAuth){
+      this.model.user = Global.userAuth;
+    }
+    else
+      this.model.user= this.userService.getUserById(navParams.data['uid']);
   }
 
   goToConversation(user:any){

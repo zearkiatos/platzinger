@@ -16,23 +16,24 @@
   <ion-grid id="homeMeContainer">
     <ion-row>
       <ion-col col-3>
-        <div class="avatarFrameOnline">
-            <img src="../../assets/imgs/generic_avatar.png" class="avatarImg img-fluid" />
+        <div class="avatarFrame avatarFrameOnline">
+            <img *ngIf="model.user.photo" src="{{model.user.photo}}"  class="avatarImg img-fluid">
+            <img *ngIf="!model.user.photo" src="../../assets/imgs/generic_avatar.png"  class="avatarImg img-fluid">
         </div>
       </ion-col>
       <ion-col ion-col-9>
-        Nick <br />
-        <small>Subnick</small> <br />
-        <small><b>caprilespe@outlook.com</b></small>
+        {{model.user.name}} {{model.user.lastName}} <br />
+        <small>{{model.user.nick}}</small> <br />
+        <small><b>{{model.user.email}}</b></small>
       </ion-col>
 
     </ion-row>
   </ion-grid>
   <div class="searchBoxContainer">
-      <ion-input type="text" placeholder="Buscar Amigo" [(ngModel)]="query"></ion-input>
+      <ion-input type="text" placeholder="Buscar Amigo" style="background-color:#ffffff;" [(ngModel)]="query"></ion-input>
   </div>
 
-  <div>
+  <div *ngIf="friends">
       <div>
           <b>Amigos</b>
         </div>
