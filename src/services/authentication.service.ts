@@ -27,7 +27,8 @@ export class AuthenticationService implements IAuthenticationService{
     }
 
     loginWithFacebook(){
-        return this.angularFireAuth.auth.signInWithPopup(new firebase.auth.FacebookAuthProvider());
+        const provider = new firebase.auth.FacebookAuthProvider();
+        return this.angularFireAuth.auth.signInWithPopup(provider);
     }
     
 }

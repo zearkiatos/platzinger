@@ -5,6 +5,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { Status } from '../../enum/status';
 import { Functions } from '../../utils/funtions';
 import { UserService } from '../../services/user.service';
+import { User } from '../../models/user';
 
 /**
  * Generated class for the RegisterPage page.
@@ -19,20 +20,9 @@ import { UserService } from '../../services/user.service';
   providers:[UserService, AuthenticationService]
 })
 export class RegisterPage {
-  @Output() public model:any = {
-    user:{
-      id:0,
-      name:"",
-      lastName:"",
-      email:"",
-      nick:"",
-      photo:"",
-      password:"",
-      status:Status.Online
-
-    }
-  }
+  @Output() public user:User;
   constructor(public navCtrl: NavController, public navParams: NavParams, private userService:UserService, private authenticationService:AuthenticationService) {
+    this.user = new User();
   }
 
   ionViewDidLoad() {
@@ -40,23 +30,23 @@ export class RegisterPage {
   }
 
   uploadPhoto($event):void{
-    this.model.user.photo = $event.target.files[0];
+    this.user.photo = $event.target.files[0];
 
-     Functions.getBase64(this.model.user.photo).then((result)=>{
+     Functions.getBase64(this.user.photo).then((result)=>{
        console.log(result);
-       this.model.user.photo= result;
+       this.user.photo= result;
       return result;
     });
   }
 
     registerUser(){
-      this.authenticationService.registerWithEmail(this.model.user.email,this.model.user.password).then(
+      this.authenticationService.registerWithEmail(this.user.email,this.user.password).then(
         (data)=>{
           console.log(data);
           console.log(data.user.uid);
-          this.model.user.id = data.user.uid;
-          this.userService.createUser(this.model.user);
-          this.navCtrl.push(HomePage,{'user':this.model.user});
+          this.user.id = data.user.uid;
+          this.userService.createUser(this.user);
+          this.navCtrl.push(HomePage,{'user':this.user});
         },
         (error)=>{
           alert("Ocurrio un error");

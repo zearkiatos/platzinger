@@ -6,6 +6,7 @@ import { Status } from '../enum/status';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
+import { User } from '../models/user';
 
 @Injectable()
 export class UserService implements IUserService{
@@ -25,11 +26,11 @@ export class UserService implements IUserService{
       return this.angularFireDabase.object('/users/'+id);
     }
 
-    createUser(user){
-      return this.angularFireDabase.object('/users/'+user.id);
+    createUser(user:User){
+      return this.angularFireDabase.object('/users/'+user.id).set(user);
     }
 
-    editUser(user){
+    editUser(user:User){
       return this.angularFireDabase.object('/users/'+user.id).set(user);
     }
 
