@@ -22,12 +22,23 @@ export class HomePage {
   status:Status;
   @Output() query:string;
   constructor(public navCtrl: NavController, private userService:UserService, public navParams:NavParams) {
-    console.log(this.userService.getUserById(navParams.data['uid']));
-    if(Global.userAuth){
-      this.model.user = Global.userAuth;
-    }
-    else
-      this.model.user= this.userService.getUserById(navParams.data['uid']);
+    this.userService.getUserById(this.navParams.data['uid']).valueChanges().subscribe((user)=>{
+      this.model.user = user;
+      Global.userAuth = user;
+    },(error)=>{
+      console.log(error);
+    });
+    const users = this.userService.getUsers();
+    users.valueChanges().subscribe((users)=>{
+      console.log(users);
+      this.friends = users;
+    })
+    // this.userService.getUsers().valueChanges().subscribe((users)=>{
+    //   console.log(users);
+    //   this.friends = users;
+    // },(error)=>{
+    //   console.log(error);
+    // });
   }
 
   goToConversation(user:any){

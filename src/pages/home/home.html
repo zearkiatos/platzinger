@@ -37,8 +37,13 @@
       <div>
           <b>Amigos</b>
         </div>
-        <div class="contactListItem" [ngClass]="{'contactOffline':user.status == 'Offline' || user.status=='AppearOffline'}" [ngStyle]="{'color':user.status == 'Offline' || user.status=='AppearOffline'?'red':'blue'}" *ngFor="let user of friends | search:query" (click)="goToConversation(user)">
-          <img src="../../assets/imgs/logo_live_online.png" class="status" alt="">
+        <!--[ngClass]="{'contactOffline':user.status == 'Offline' || user.status=='AppearOffline'}" [ngStyle]="{'color':user.status == 'Offline' || user.status=='AppearOffline'?'red':'blue'}"-->
+        <div class="contactListItem" [ngClass]="{'contactOffline':user.status == 'Offline' || user.status=='AppearOffline'}" [ngStyle]="{'color':user.status == 'Offline' || user.status=='AppearOffline'?'red':'blue'}" *ngFor="let user of friends | search:query" (click)="goToConversation(user)">  
+          <img src="../../assets/imgs/logo_live_online.png" *ngIf="user.status=='Online'" class="status" alt="">
+          <img src="../../assets/imgs/logo_live_offline.png" *ngIf="user.status=='Offline'" class="status" alt="">
+          <img src="../../assets/imgs/logo_live_busy.png" *ngIf="user.status=='Busy'" class="status" alt="">
+          <img src="../../assets/imgs/logo_live_appear_offline.png" *ngIf="user.status=='AppearOffline'" class="status" alt="">
+          <img src="../../assets/imgs/logo_live_away.png" *ngIf="user.status=='Away'" class="status" alt="">
           <b>{{user.name}}</b>
           <small *ngIf="user.status">{{user.status}}</small>
         </div>
