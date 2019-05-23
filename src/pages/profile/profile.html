@@ -26,20 +26,19 @@
       </ion-col>
     </ion-row>
   </div>
-  <ion-list>
+  <ion-list *ngIf="user">
       <ion-item>
           <ion-label fixed>
             Nick
           </ion-label>
-          <ion-input type="text" id="nick" name="nick">
-    
+          <ion-input type="text" id="nick" name="nick" [(ngModel)]="user.nick">
           </ion-input>
         </ion-item>
-    <ion-item>
+        <ion-item>
       <ion-label fixed>
         Email
       </ion-label>
-      <ion-input type="email" id="email" name="email" disabled="disabled">
+      <ion-input type="email" id="email" name="email" disabled="disabled" [(ngModel)]="user.email">
 
       </ion-input>
     </ion-item>
@@ -47,7 +46,7 @@
         <ion-label fixed>
           Status
         </ion-label>
-          <ion-select>
+          <ion-select [(ngModel)]="user.status">
             <ion-option value="Online">
               Conectado
             </ion-option>
@@ -64,6 +63,6 @@
       </ion-item>
   </ion-list>
   <div padding>
-    <button ion-button block>Guardar</button>
+    <button ion-button block (click)="saveData()">Guardar</button>
   </div>
 </ion-content>
