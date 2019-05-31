@@ -1,3 +1,4 @@
+import { Camera } from '@ionic-native/camera';
 import { RegisterPage } from './../pages/register/register';
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
@@ -21,7 +22,6 @@ import {AngularFireAuthModule} from '@angular/fire/auth';
 import { FormsModule } from '@angular/forms';
 import { Base64 } from '@ionic-native/base64';
 import {AngularFirestore,AngularFirestoreCollection } from 'angularfire2/firestore';
-
 export const firebaseConfig = {
   apiKey: "AIzaSyBHCs_k9r54Rxah2R6PPAs1taYLFDvzyx0",
   authDomain: "platzinger-2ba00.firebaseapp.com",
@@ -66,7 +66,8 @@ export const firebaseConfig = {
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    ServicesUserProvider
+    ServicesUserProvider,
+    Camera
   ]
 })
 export class AppModule {}
