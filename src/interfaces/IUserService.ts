@@ -10,4 +10,8 @@ export interface IUserService{
     createUser(user);
   
     editUser(user);
+
+    uploadPicture(pictureName, image);
+
+    getDownloadURL(pictureName);
 }

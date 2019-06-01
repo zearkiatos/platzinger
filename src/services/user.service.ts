@@ -7,6 +7,7 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
 import { User } from '../models/user';
+import { AngularFireStorage } from 'angularfire2/storage';
 
 @Injectable()
 export class UserService implements IUserService{
@@ -15,7 +16,7 @@ export class UserService implements IUserService{
     items: Observable<any[]>;
     private angularFirestore:AngularFirestore;
 
-    constructor(private angularFireDabase: AngularFireDatabase){
+    constructor(private angularFireDabase: AngularFireDatabase, private angularFireStorage:AngularFireStorage){
     }
 
     getUsers(){
@@ -32,6 +33,14 @@ export class UserService implements IUserService{
 
     editUser(user:User){
       return this.angularFireDabase.object('/users/'+user.id).set(user);
+    }
+
+    uploadPicture(pictureName: any, image: any) {
+      return this.angularFireStorage.ref('pictures/'+pictureName).putString(image,'data_url');
+    }
+
+    getDownloadURL(pictureName: any) {
+      return this.angularFireStorage.ref('pictures/'+pictureName).getDownloadURL();
     }
 
 

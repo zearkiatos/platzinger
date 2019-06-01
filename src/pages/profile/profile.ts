@@ -19,6 +19,7 @@ import {Camera, CameraOptions} from '@ionic-native/camera';
 })
 export class ProfilePage {
   public user:User;
+  private pictureId:any;
   constructor(public navCtrl: NavController, public navParams: NavParams, private authService: AuthenticationService, private userService: UserService, private alertCtrl:AlertController, private camera:Camera) {
     this.authService.getStatus().subscribe((data)=>{
       this.userService.getUserById(data.uid).valueChanges().subscribe((user:any)=>{
@@ -76,7 +77,8 @@ export class ProfilePage {
       const result = await this.camera.getPicture(cameraOptions);
 
       const image = 'data:image/jpeg;base64,'+result;
-
+      this.pictureId = Date.now();
+      this.userService.uploadPicture(this.pictureId,image);
       console.log(image);
     }
     catch(e){
