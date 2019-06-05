@@ -3,7 +3,7 @@ import { Status } from "../../enum/status";
 export interface IUser {
     name:string,
     nick:string;
-    photo:any;
+    photo:string;
     lastName:string;
     age?:number;
     email:string;
