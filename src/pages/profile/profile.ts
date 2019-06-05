@@ -2,7 +2,7 @@ import { User } from './../../models/user';
 import { UserService } from './../../services/user.service';
 import { AuthenticationService } from './../../services/authentication.service';
 import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController, Button } from 'ionic-angular';
+import { NavController, NavParams, AlertController, Button, ToastController } from 'ionic-angular';
 import { IUser } from '../../app/interfaces/IUser';
 import {Camera, CameraOptions} from '@ionic-native/camera';
 /**
@@ -20,7 +20,7 @@ import {Camera, CameraOptions} from '@ionic-native/camera';
 export class ProfilePage {
   public user:User;
   private pictureId:any;
-  constructor(public navCtrl: NavController, public navParams: NavParams, private authService: AuthenticationService, private userService: UserService, private alertCtrl:AlertController, private camera:Camera) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private authService: AuthenticationService, private userService: UserService, private alertCtrl:AlertController, private camera:Camera, private toastCtrl:ToastController) {
     this.authService.getStatus().subscribe((data)=>{
       this.userService.getUserById(data.uid).valueChanges().subscribe((user:any)=>{
         this.user = user;
@@ -68,7 +68,6 @@ export class ProfilePage {
         destinationType: this.camera.DestinationType.DATA_URL,
         encodingType: this.camera.EncodingType.JPEG,
         mediaType: this.camera.MediaType.PICTURE,
-        correctOrientation:true,
         allowEdit:true,
       };
 
@@ -78,7 +77,21 @@ export class ProfilePage {
 
       const image = 'data:image/jpeg;base64,'+result;
       this.pictureId = Date.now();
-      this.userService.uploadPicture(this.pictureId,image);
+      this.userService.uploadPicture(this.pictureId+'.jpg',image).then((data)=>{
+        this.userService.getDownloadURL(this.pictureId+'.jpg').subscribe((url)=>{
+          this.user.photo = url;
+          let toast = this.toastCtrl.create({
+            message:"Foto Subida",
+            duration: 3000,
+            position:"bottom"
+          });
+          toast.present();
+        },(error)=>{
+          console.log(error);
+        });
+      }).catch((error)=>{
+        console.log(error);
+      });
       console.log(image);
     }
     catch(e){
