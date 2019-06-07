@@ -1,10 +1,12 @@
+import { HttpClient } from '@angular/common/http';
+import {Geolocation} from '@ionic-native/geolocation';
+import {Camera, CameraOptions} from '@ionic-native/camera';
 import { User } from './../../models/user';
 import { UserService } from './../../services/user.service';
 import { AuthenticationService } from './../../services/authentication.service';
 import { Component } from '@angular/core';
 import { NavController, NavParams, AlertController, Button, ToastController } from 'ionic-angular';
 import { IUser } from '../../app/interfaces/IUser';
-import {Camera, CameraOptions} from '@ionic-native/camera';
 /**
  * Generated class for the ProfilePage page.
  *
@@ -19,8 +21,9 @@ import {Camera, CameraOptions} from '@ionic-native/camera';
 })
 export class ProfilePage {
   public user:User;
+  public location:any;
   private pictureId:any;
-  constructor(public navCtrl: NavController, public navParams: NavParams, private authService: AuthenticationService, private userService: UserService, private alertCtrl:AlertController, private camera:Camera, private toastCtrl:ToastController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private authService: AuthenticationService, private userService: UserService, private alertCtrl:AlertController, private camera:Camera, private toastCtrl:ToastController, private geolocation:Geolocation, private httpClient:HttpClient) {
     this.authService.getStatus().subscribe((data)=>{
       this.userService.getUserById(data.uid).valueChanges().subscribe((user:any)=>{
         this.user = user;
@@ -97,6 +100,20 @@ export class ProfilePage {
     catch(e){
       console.error(e);
     }
+  }
+
+  getLocation(){
+    this.geolocation.getCurrentPosition().then((response)=>{
+      console.log(response);
+      this.location = response;
+      this.httpClient.get("http://maps.googleapis.com/maps/api/geocode/json?latlng="+this.location.coords.latitude+","+this.location.coords.longitude).subscribe((data)=>{
+        console.log(data)
+      }, (error)=>{
+        console.log(error);
+      });
+    }).catch((error)=>{
+      console.log(error);
+    })
   }
 
 }

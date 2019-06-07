@@ -1,3 +1,4 @@
+import { Geolocation } from '@ionic-native/geolocation';
 import { Camera } from '@ionic-native/camera';
 import { RegisterPage } from './../pages/register/register';
 import { BrowserModule } from '@angular/platform-browser';
@@ -23,6 +24,7 @@ import { FormsModule } from '@angular/forms';
 import { Base64 } from '@ionic-native/base64';
 import {AngularFirestore,AngularFirestoreCollection } from 'angularfire2/firestore';
 import {AngularFireStorageModule} from 'angularfire2/storage';
+import { HttpClientModule } from '@angular/common/http';
 export const firebaseConfig = {
   apiKey: "AIzaSyBHCs_k9r54Rxah2R6PPAs1taYLFDvzyx0",
   authDomain: "platzinger-2ba00.firebaseapp.com",
@@ -51,7 +53,8 @@ export const firebaseConfig = {
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    AngularFireStorageModule
+    AngularFireStorageModule,
+    HttpClientModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -69,7 +72,8 @@ export const firebaseConfig = {
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ServicesUserProvider,
-    Camera
+    Camera,
+    Geolocation
   ]
 })
 export class AppModule {}

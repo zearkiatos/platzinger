@@ -33,6 +33,10 @@
     <button ion-button (click)="takePicture('album')">
       <ion-icon name="image"></ion-icon>
     </button>
+    <button ion-button (click)="getLocation()">
+      <ion-icon name="navigate"></ion-icon>
+    </button>
+    <div *ngIf="location">{{location | json}}</div>
   </div>
   <ion-list *ngIf="user">
       <ion-item>
