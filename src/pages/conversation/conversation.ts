@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { IUser } from '../../app/interfaces/IUser';
 import { Status } from '../../models/status';
+import { AuthenticationService } from '../../services/authentication.service';
+import { UserService } from '../../services/user.service';
+import { User } from '../../models/user';
 
 /**
  * Generated class for the ConversationPage page.
@@ -16,12 +19,27 @@ import { Status } from '../../models/status';
 })
 export class ConversationPage {
   public friend:IUser;
+  public user:IUser;
   public status:Status;
   public price:number=76.8874934768364;
   public today:any= Date.now();
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public authService:AuthenticationService, public userService:UserService) {
     this.friend = this.navParams.data['user'];
-
+    this.authService.getStatus().subscribe(
+      (data)=>{
+        this.userService.getUserById(data.id).valueChanges().subscribe(
+          (user:User)=>{
+            this.user =user;
+          },
+          (error)=>{
+            console.log(error);
+          }
+        );
+      },
+      (error)=>{
+        console.log(error);
+      }
+    );
   }
 
   ionViewDidLoad() {
