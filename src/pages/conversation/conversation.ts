@@ -27,15 +27,17 @@ export class ConversationPage {
   public price:number=76.8874934768364;
   public today:any= Date.now();
   public message:string;
+  public conversation:any;
   constructor(public navCtrl: NavController, public navParams: NavParams, public authService:AuthenticationService, public userService:UserService, public conversationService:ConversationService) {
     this.friend = this.navParams.data['user'];
     this.authService.getStatus().subscribe(
       (data:any)=>{
-        this.userService.getUserById(this.friend.id).valueChanges().subscribe(
+        this.userService.getUserById(data.uid).valueChanges().subscribe(
           (user:User)=>{
             this.user =user;
             let idsArray = [this.user.id, this.friend.id];
             this.conversationId = idsArray.join('||');
+            this.getConversation();
           },
           (error)=>{
             console.log(error);
@@ -57,20 +59,39 @@ export class ConversationPage {
   }
 
   sendMessage(){
-    const messageObject: any= {
+    const messageObject= {
       uid:this.conversationId,
-      timeStamp:Date.now(),
+      timestamp:Date.now(),
       sender:this.user.id,
       receiver: this.friend.id,
       type:'text',
       content:this.message
     };
     console.log(messageObject);
-    this.conversationService.postConversation(messageObject).then((data:any)=>{
+    this.conversationService.postConversation(messageObject).then((data)=>{
       this.message = '';
     }).catch((error)=>{
       console.log(error);
     });
   }
+
+  getConversation(){
+    this.conversationService.getById(this.conversationId).valueChanges().subscribe(
+      (data)=>{
+        this.conversation=data;
+      },
+      (error)=>{
+        console.log(error);
+      });
+  }
+
+  getUserNickById(id: number) {
+    if(id ===this.friend.id){
+        return this.friend.nick;
+    }
+    else{
+        return this.user.nick;
+    }
+}
 
 }

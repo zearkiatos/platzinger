@@ -9,9 +9,15 @@ export class ConversationService implements IConversationService{
     }
 
     postConversation(conversation: any) {
-        return this.angularFireDatabase.object('coversations/'+conversation.id+'/'+conversation.timestamp)
+        return this.angularFireDatabase.object('conversations/'+conversation.uid+'/'+conversation.timestamp)
         .set(conversation);
     }
+
+    getById(id: number) {
+        return this.angularFireDatabase.list('conversations/'+id);
+    }
+
+
 
 
 }

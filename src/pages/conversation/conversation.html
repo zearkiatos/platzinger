@@ -10,7 +10,9 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>{{friend.name}}</ion-title>
+    <ion-title>
+      <span>{{friend.nick}}</span> {{friend.status}}
+    </ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -38,8 +40,14 @@
         <button color="dark" ion-fab>
             <ion-icon name="images"></ion-icon>
           </button>
+          <button color="dark" ion-fab>
+            <ion-icon name="pin"></ion-icon>
+          </button>
       </ion-fab-list>
   </ion-fab>
+  <div class="message" *ngFor="let message of conversation">
+    <b>{{getUserNickById(message.sender)}}</b> dice: {{message.content}}
+  </div>
 
 
 
