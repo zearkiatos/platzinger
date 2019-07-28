@@ -18,7 +18,7 @@
 </ion-header>
 
 
-<ion-content padding class="backgroundPlatzinger">
+<ion-content padding class="backgroundPlatzinger" [ngClass]="{'shaker':shake}">
   <!-- <p>{{friend | json}}</p>
   <p>{{price | number:'1.2-2'}}</p>
   <p>{{today | date}}</p> -->
@@ -29,7 +29,7 @@
       </ion-icon>
     </button>
     <ion-fab-list side="top">
-      <button outline ion-fab>
+      <button outline ion-fab (click)="sendZumbido()">
         <img src="assets/imgs/zumbido.png" />
       </button>
     </ion-fab-list>
@@ -45,11 +45,14 @@
           </button>
       </ion-fab-list>
   </ion-fab>
-  <ng-template *ngFor="let message of conversation">
+  <div *ngFor="let message of conversation">
       <div class="message" *ngIf="message.type== 'text'">
           <b>{{getUserNickById(message.sender)}}</b> dice: {{message.content}}
       </div>
-      <div class="message" *ngIf="message.type== 'picture' || message.type=== 'image'">
+      <div class="message" *ngIf="message.type== 'zumbido'">
+          <b>{{getUserNickById(message.sender)}}</b> ha enviado un zumbido
+      </div>
+      <div class="message" *ngIf="message.type== 'picture' || message.type== 'image'">
           <b>{{getUserNickById(message.sender)}}</b>
           <ion-thumbnail slot="start">
               <img src="{{message.content}}" />
@@ -57,9 +60,9 @@
       </div>
       <div class="message" *ngIf="message.type== 'location'">
           <b>{{getUserNickById(message.sender)}}</b> 
-          <ion-icon name="pin" color="green"></ion-icon><span>>dice: {{message.content}}</span
+          <ion-icon name="pin" color="green"></ion-icon><span>>dice: {{message.content}}</span>
       </div>
-  </ng-template>
+    </div>
 
 
 
