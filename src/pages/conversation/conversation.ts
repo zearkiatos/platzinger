@@ -1,11 +1,15 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import {Geolocation} from '@ionic-native/geolocation';
+import { NavController, NavParams, ToastController } from 'ionic-angular';
 import { IUser } from '../../app/interfaces/IUser';
 import { Status } from '../../models/status';
 import { AuthenticationService } from '../../services/authentication.service';
 import { UserService } from '../../services/user.service';
 import { User } from '../../models/user';
 import { ConversationService } from '../../services/coversation.service';
+import { ConversationTypeEnum } from '../../utils/conversationTypeEnum';
+import { CameraOptions, Camera, PictureSourceType } from '@ionic-native/camera';
+import { HttpClient } from '@angular/common/http';
 
 /**
  * Generated class for the ConversationPage page.
@@ -28,7 +32,10 @@ export class ConversationPage {
   public today:any= Date.now();
   public message:string;
   public conversation:any;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public authService:AuthenticationService, public userService:UserService, public conversationService:ConversationService) {
+  public pictureId:number;
+  public location:any;
+  constructor(public navCtrl: NavController, public navParams: NavParams, public authService:AuthenticationService, public userService:UserService, public conversationService:ConversationService,
+    private camera:Camera, private toastCtrl:ToastController, private geolocation:Geolocation, private httpClient:HttpClient) {
     this.friend = this.navParams.data['user'];
     this.authService.getStatus().subscribe(
       (data:any)=>{
@@ -64,8 +71,25 @@ export class ConversationPage {
       timestamp:Date.now(),
       sender:this.user.id,
       receiver: this.friend.id,
-      type:'text',
+      type:ConversationTypeEnum.Text,
       content:this.message
+    };
+    console.log(messageObject);
+    this.conversationService.postConversation(messageObject).then((data)=>{
+      this.message = '';
+    }).catch((error)=>{
+      console.log(error);
+    });
+  }
+
+  sendMessageMultimedia(content:string, type:ConversationTypeEnum){
+    const messageObject= {
+      uid:this.conversationId,
+      timestamp:Date.now(),
+      sender:this.user.id,
+      receiver: this.friend.id,
+      type:type,
+      content:content
     };
     console.log(messageObject);
     this.conversationService.postConversation(messageObject).then((data)=>{
@@ -86,12 +110,77 @@ export class ConversationPage {
   }
 
   getUserNickById(id: number) {
-    if(id ===this.friend.id){
-        return this.friend.nick;
+      if(id ===this.friend.id){
+          return this.friend.nick;
+      }
+      else{
+          return this.user.nick;
+      }
+  }
+  
+  async takePicture(source:string){
+    try{
+      let cameraOptions: CameraOptions={
+        quality:50,
+        targetWidth:800,
+        targetHeight:800,
+        destinationType: this.camera.DestinationType.DATA_URL,
+        encodingType: this.camera.EncodingType.JPEG,
+        mediaType: this.camera.MediaType.PICTURE,
+        allowEdit:true,
+      };
+
+      cameraOptions.sourceType = (source === 'camera')?this.camera.PictureSourceType.CAMERA: this.camera.PictureSourceType.PHOTOLIBRARY;
+
+      const result = await this.camera.getPicture(cameraOptions);
+
+      const image = 'data:image/jpeg;base64,'+result;
+      this.pictureId = Date.now();
+      this.userService.uploadPicture(this.pictureId+'.jpg',image).then((data)=>{
+        this.userService.getDownloadURL(this.pictureId+'.jpg').subscribe((url)=>{
+
+          if(cameraOptions.sourceType === PictureSourceType.CAMERA){
+            this.sendMessageMultimedia(url,ConversationTypeEnum.Picture);
+          }
+          else if(cameraOptions.sourceType === PictureSourceType.PHOTOLIBRARY){
+            this.sendMessageMultimedia(url,ConversationTypeEnum.Image);
+          }
+
+          let toast = this.toastCtrl.create({
+            message:"Foto Subida",
+            duration: 3000,
+            position:"bottom"
+          });
+          toast.present();
+        },(error)=>{
+          console.log(error);
+        });
+      }).catch((error)=>{
+        console.log(error);
+      });
+      console.log(image);
     }
-    else{
-        return this.user.nick;
+    catch(e){
+      console.error(e);
     }
-}
+
+  }
+
+  getLocation(){
+    this.geolocation.getCurrentPosition().then((response)=>{
+      console.log(response);
+      this.location = response;
+      this.httpClient.get("http://maps.googleapis.com/maps/api/geocode/json?latlng="+this.location.coords.latitude+","+this.location.coords.longitude).subscribe((data)=>{
+        console.log(data);
+        this.sendMessageMultimedia(this.location.coords.latitude+','+this.location.coords.longitude,ConversationTypeEnum.Location);
+      }, (error)=>{
+        console.log(error);
+      });
+    }).catch((error)=>{
+      console.log(error);
+    })
+  }
+
+
 
 }
