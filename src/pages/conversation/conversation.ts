@@ -45,7 +45,7 @@ export class ConversationPage {
           (user:User)=>{
             this.user =user;
             let idsArray = [this.user.id, this.friend.id];
-            this.conversationId = idsArray.join('||');
+            this.conversationId = idsArray.join('|');
             this.getConversation();
           },
           (error)=>{
@@ -144,6 +144,24 @@ export class ConversationPage {
           return this.user.nick;
       }
   }
+
+  getUserPicById(id: number) {
+    if(id ===this.friend.id){
+        return this.friend.photo;
+    }
+    else{
+        return this.user.photo;
+    }
+}
+
+  getStatusById(id: number) {
+    if(id ===this.friend.id){
+        return this.friend.status;
+    }
+    else{
+        return this.user.status;
+    }
+}
   
   async takePicture(source:string){
     try{
