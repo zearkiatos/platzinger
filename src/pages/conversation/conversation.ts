@@ -10,6 +10,7 @@ import { ConversationService } from '../../services/coversation.service';
 import { ConversationTypeEnum } from '../../utils/conversationTypeEnum';
 import { CameraOptions, Camera, PictureSourceType } from '@ionic-native/camera';
 import { HttpClient } from '@angular/common/http';
+import { Vibration } from '@ionic-native/vibration';
 
 /**
  * Generated class for the ConversationPage page.
@@ -34,8 +35,9 @@ export class ConversationPage {
   public conversation:any;
   public pictureId:number;
   public location:any;
+  public shake:boolean;
   constructor(public navCtrl: NavController, public navParams: NavParams, public authService:AuthenticationService, public userService:UserService, public conversationService:ConversationService,
-    private camera:Camera, private toastCtrl:ToastController, private geolocation:Geolocation, private httpClient:HttpClient) {
+    private camera:Camera, private toastCtrl:ToastController, private geolocation:Geolocation, private httpClient:HttpClient, public vibration:Vibration) {
     this.friend = this.navParams.data['user'];
     this.authService.getStatus().subscribe(
       (data:any)=>{
@@ -93,7 +95,32 @@ export class ConversationPage {
     };
     console.log(messageObject);
     this.conversationService.postConversation(messageObject).then((data)=>{
-      this.message = '';
+    }).catch((error)=>{
+      console.log(error);
+    });
+  }
+
+  doZumbido(){
+    const audio = new Audio('assets/sounds/zumbido.m4a');
+    audio.play();
+    this.shake=true;
+    this.vibration.vibrate([200,800,1500]);
+    window.setTimeout(()=>{
+      this.shake = false;
+    },800);
+  }
+
+  sendZumbido(){
+    const messageObject= {
+      uid:this.conversationId,
+      timestamp:Date.now(),
+      sender:this.user.id,
+      receiver: this.friend.id,
+      type:ConversationTypeEnum.Zumbido
+    };
+    console.log(messageObject);
+    this.conversationService.postConversation(messageObject).then((data)=>{
+      this.doZumbido();
     }).catch((error)=>{
       console.log(error);
     });

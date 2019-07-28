@@ -25,6 +25,7 @@ import { Base64 } from '@ionic-native/base64';
 import {AngularFirestore,AngularFirestoreCollection } from 'angularfire2/firestore';
 import {AngularFireStorageModule} from 'angularfire2/storage';
 import { HttpClientModule } from '@angular/common/http';
+import {Vibration} from '@ionic-native/vibration';
 export const firebaseConfig = {
   apiKey: "AIzaSyBHCs_k9r54Rxah2R6PPAs1taYLFDvzyx0",
   authDomain: "platzinger-2ba00.firebaseapp.com",
@@ -73,7 +74,8 @@ export const firebaseConfig = {
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ServicesUserProvider,
     Camera,
-    Geolocation
+    Geolocation,
+    Vibration
   ]
 })
 export class AppModule {}
