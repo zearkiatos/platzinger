@@ -1,5 +1,5 @@
 
 
-export interface ICoversationService{
-    postConversatio(conversation);
+export interface IConversationService{
+    postConversation(conversation);
 }
