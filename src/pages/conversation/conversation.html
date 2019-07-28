@@ -10,7 +10,9 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>{{friend.name}}</ion-title>
+    <ion-title>
+      <span>{{friend.nick}}</span> {{friend.status}}
+    </ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -32,14 +34,33 @@
       </button>
     </ion-fab-list>
     <ion-fab-list side="bottom">
-        <button color="dark" ion-fab>
-          <ion-icon name="camera"></ion-icon>
+        <button color="dark" ion-fab (click)="takePicture('camera')">
+          <ion-icon name="camera" ></ion-icon>
         </button>
-        <button color="dark" ion-fab>
+        <button color="dark" ion-fab (click)="takePicture('album')"> 
             <ion-icon name="images"></ion-icon>
+          </button>
+          <button color="dark" ion-fab (click)="getLocation()">
+            <ion-icon name="pin"></ion-icon>
           </button>
       </ion-fab-list>
   </ion-fab>
+  <ng-template *ngFor="let message of conversation">
+      <div class="message" *ngIf="message.type== 'text'">
+          <b>{{getUserNickById(message.sender)}}</b> dice: {{message.content}}
+      </div>
+      <div class="message" *ngIf="message.type== 'picture' || message.type=== 'image'">
+          <b>{{getUserNickById(message.sender)}}</b>
+          <ion-thumbnail slot="start">
+              <img src="{{message.content}}" />
+          </ion-thumbnail>
+      </div>
+      <div class="message" *ngIf="message.type== 'location'">
+          <b>{{getUserNickById(message.sender)}}</b> 
+          <ion-icon name="pin" color="green"></ion-icon><span>>dice: {{message.content}}</span
+      </div>
+  </ng-template>
+
 
 
 
