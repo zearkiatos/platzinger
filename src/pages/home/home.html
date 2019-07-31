@@ -33,19 +33,22 @@
       <ion-input type="text" placeholder="Buscar Amigo" style="background-color:#ffffff;" [(ngModel)]="query"></ion-input>
   </div>
 
-  <div *ngIf="friends">
+  <div *ngIf="model.user && model.user.friends">
       <div>
-          <b>Amigos</b>
+          <b>Amigos {{model.user.friends.length}}/{{model.user.friends.length}}</b>
         </div>
         <!--[ngClass]="{'contactOffline':user.status == 'Offline' || user.status=='AppearOffline'}" [ngStyle]="{'color':user.status == 'Offline' || user.status=='AppearOffline'?'red':'blue'}"-->
-        <div class="contactListItem" [ngClass]="{'contactOffline':user.status == 'Offline' || user.status=='AppearOffline'}" [ngStyle]="{'color':user.status == 'Offline' || user.status=='AppearOffline'?'red':'blue'}" *ngFor="let user of friends | search:query" (click)="goToConversation(user)">  
+        <!-- <div class="contactListItem" [ngClass]="{'contactOffline':user.status == 'Offline' || user.status=='AppearOffline'}" [ngStyle]="{'color':user.status == 'Offline' || user.status=='AppearOffline'?'red':'blue'}" *ngFor="let user of friends | search:query" (click)="goToConversation(user)">  
           <img src="assets/imgs/logo_live_online.png" *ngIf="user.status=='Online'" class="status" alt="">
           <img src="assets/imgs/logo_live_offline.png" *ngIf="user.status=='Offline'" class="status" alt="">
           <img src="assets/imgs/logo_live_busy.png" *ngIf="user.status=='Busy'" class="status" alt="">
           <img src="assets/imgs/logo_live_appear_offline.png" *ngIf="user.status=='AppearOffline'" class="status" alt="">
           <img src="assets/imgs/logo_live_away.png" *ngIf="user.status=='Away'" class="status" alt="">
-          <b>{{user.name}}</b>
+          <b>{{user.nick}}</b>
           <small *ngIf="user.status">{{user.status}}</small>
+        </div> -->
+        <div *ngFor="let user of model.user.friends">
+          {{user}}
         </div>
   </div>
 

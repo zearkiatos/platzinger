@@ -27,12 +27,16 @@ export class HomePage {
     this.userService.getUserById(this.navParams.data['uid']).valueChanges().subscribe((user)=>{
       this.model.user = user;
       Global.userAuth = user;
+      console.log(this.model.user.friends);
+      this.model.user.friends = Object.keys(this.model.user.friends).map(key=>{
+        return this.model.user.friends[key];
+      });
+      console.log(this.model.user);
     },(error)=>{
       console.log(error);
     });
     const users = this.userService.getUsers();
     users.valueChanges().subscribe((users)=>{
-      console.log(users);
       this.friends = users;
     })
   }

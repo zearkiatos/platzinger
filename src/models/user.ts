@@ -13,6 +13,7 @@ export class User implements IUser {
     nick: string;
     age?: number;
     email: string;
+    friends?:any[];
     friend?: boolean;
     status: Status;
 

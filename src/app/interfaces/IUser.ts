@@ -8,6 +8,7 @@ export interface IUser {
     age?:number;
     email:string;
     friend?:boolean;
+    friends?:any[];
     id:any;
     status:Status;
     active?:boolean;
