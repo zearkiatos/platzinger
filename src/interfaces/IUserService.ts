@@ -14,4 +14,6 @@ export interface IUserService{
     uploadPicture(pictureName, image);
 
     getDownloadURL(pictureName);
+
+    addFriend(uid,friendId);
 }

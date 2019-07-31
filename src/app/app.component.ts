@@ -13,6 +13,8 @@ import { AboutPage } from '../pages/about/about';
 import { UserService } from '../services/user.service';
 import { RequestService } from '../services/request.service';
 import { IUser } from './interfaces/IUser';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { StatusRequestEnum } from '../utils/statusRequestEnum';
 
 @Component({
   templateUrl: 'app.html',
@@ -26,6 +28,10 @@ export class MyApp {
   pages: Array<{title: string, component: any}>;
 
   user:IUser;
+
+  requests:any;
+
+  mailsShown:any =[];
 
   constructor(public app:App, public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private authService:AuthenticationService,
     private userService:UserService,private requestService:RequestService,private alertCtrl:AlertController, private modalCtrl:ModalController,private toastCtrl:ToastController) {
@@ -80,9 +86,64 @@ export class MyApp {
   getFriendRequest(){
     this.requestService.getRequestForEmail(this.user.email).valueChanges().subscribe((requests:any)=>{
       console.log(requests);
+      this.requests = requests;
+      this.requests = this.requests.filter((r)=>{
+        return r.status !== StatusRequestEnum.Accepted && r.status !==StatusRequestEnum.Rejected;
+      });
+
+      this.requests.forEach((r)=>{
+        if(this.mailsShown.indexOf(r.sender.email)===-1){
+          this.mailsShown.push(r.sender.email);
+          this.showRadio(r);
+        }
+      });
     },
     (error)=>{
       console.log(error);
     });
+  }
+
+  showRadio(r){
+    let alert = this.alertCtrl.create();
+    alert.setTitle('Solicitud de Amistad');
+    alert.setMessage(r.sender.nick+' te ha enviado una solicitud, deseas aceptar?');
+    alert.addInput(
+      {
+        type:'radio',
+        label:'Claro',
+        value:'yes',
+        checked:true
+      }
+    );
+
+    alert.addInput(
+      {
+        type:'radio',
+        label:'No',
+        value:'no'
+      }
+    );
+
+    alert.addButton({
+      text:'Ok',
+      handler:data=>{
+        if(data==='yes'){
+          this.requestService.setRequestStatus(r,StatusRequestEnum.Accepted).then((data)=>{
+            this.userService.addFriend(this.user.id, r.sender.id);
+          }).catch((error)=>{
+            console.log(error);
+          });
+        }
+        else{
+          this.requestService.setRequestStatus(r,StatusRequestEnum.Accepted).then((data)=>{
+            console.log('Solicitud Rechazada');
+          }).catch((error)=>{
+            console.log(error);
+          });
+        }
+      }
+    });
+
+    alert.present();
   }
 }

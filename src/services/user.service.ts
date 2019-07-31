@@ -43,5 +43,9 @@ export class UserService implements IUserService{
       return this.angularFireStorage.ref('pictures/'+pictureName).getDownloadURL();
     }
 
+    addFriend(uid: any, friendId: any) {
+      this.angularFireDabase.object('users/'+uid+'friends/'+friendId).set(friendId);
+      this.angularFireDabase.object('users/'+friendId+'friends/'+uid).set(uid);
+    }
 
 }
