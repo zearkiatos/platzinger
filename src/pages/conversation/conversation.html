@@ -1,0 +1,179 @@
+<!--
+  Generated template for the ConversationPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      <span>{{friend.nick}}</span> {{friend.status}}
+    </ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding class="backgroundPlatzinger" [ngClass]="{'shaker':shake}">
+  <!-- <p>{{friend | json}}</p>
+  <p>{{price | number:'1.2-2'}}</p>
+  <p>{{today | date}}</p> -->
+  <ion-fab right middle>
+    <button ion-fab>
+      <ion-icon name="send">
+
+      </ion-icon>
+    </button>
+    <ion-fab-list side="top">
+      <button outline ion-fab (click)="sendZumbido()">
+        <img src="assets/imgs/zumbido.png" />
+      </button>
+    </ion-fab-list>
+    <ion-fab-list side="bottom">
+        <button color="dark" ion-fab (click)="takePicture('camera')">
+          <ion-icon name="camera" ></ion-icon>
+        </button>
+        <button color="dark" ion-fab (click)="takePicture('album')"> 
+            <ion-icon name="images"></ion-icon>
+          </button>
+          <button color="dark" ion-fab (click)="getLocation()">
+            <ion-icon name="pin"></ion-icon>
+          </button>
+      </ion-fab-list>
+  </ion-fab>
+  <div *ngFor="let message of conversation">
+      <div class="message" *ngIf="message.type== 'text'">
+        <h6>
+            <img src="assets/imgs/logo_live_online.png" *ngIf="getStatusById(message.sender)=='Online'" class="status" alt="">
+            <img src="assets/imgs/logo_live_offline.png" *ngIf="getStatusById(message.sender)=='Offline'" class="status" alt="">
+            <img src="assets/imgs/logo_live_busy.png" *ngIf="getStatusById(message.sender)=='Busy'" class="status" alt="">
+            <img src="assets/imgs/logo_live_appear_offline.png" *ngIf="getStatusById(message.sender)=='AppearOffline'" class="status" alt="">
+            <img src="assets/imgs/logo_live_away.png" *ngIf="getStatusById(message.sender)=='Away'" class="status" alt="">
+            <b>{{getUserNickById(message.sender)}}</b> dice: 
+        </h6>
+        <hr/>
+        <ion-grid>
+          <ion-row>
+            <ion-col col-2>
+                <img *ngIf="getUserPicById(message.sender)" src="{{getUserPicById(message.sender) || 'assets/imgs/generic_avatar.png'}}" class="avatarImg" />
+            </ion-col>
+            <ion-col col-8>
+                <div>
+                     <p>
+                        {{message.content}}
+                     </p> 
+          
+                </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+
+      <div class="message" *ngIf="message.type== 'zumbido'"> 
+          <h6>
+              <img src="assets/imgs/logo_live_online.png" *ngIf="getStatusById(message.sender)=='Online'" class="status" alt="">
+              <img src="assets/imgs/logo_live_offline.png" *ngIf="getStatusById(message.sender)=='Offline'" class="status" alt="">
+              <img src="assets/imgs/logo_live_busy.png" *ngIf="getStatusById(message.sender)=='Busy'" class="status" alt="">
+              <img src="assets/imgs/logo_live_appear_offline.png" *ngIf="getStatusById(message.sender)=='AppearOffline'" class="status" alt="">
+              <img src="assets/imgs/logo_live_away.png" *ngIf="getStatusById(message.sender)=='Away'" class="status" alt="">
+              <b>{{getUserNickById(message.sender)}}</b> dice: 
+          </h6>
+          <hr/>
+          <ion-grid>
+            <ion-row>
+              <ion-col col-2>
+                  <img *ngIf="getUserPicById(message.sender)" src="{{getUserPicById(message.sender) || 'assets/imgs/generic_avatar.png'}}" class="avatarImg" />
+              </ion-col>
+              <ion-col col-8>
+                  <div>
+                       <p>
+                          ha enviado un zumbido
+                       </p> 
+            
+                  </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+
+        <div class="message" *ngIf="message.type== 'picture' || message.type== 'image'">
+            <h6>
+                <img src="assets/imgs/logo_live_online.png" *ngIf="getStatusById(message.sender)=='Online'" class="status" alt="">
+                <img src="assets/imgs/logo_live_offline.png" *ngIf="getStatusById(message.sender)=='Offline'" class="status" alt="">
+                <img src="assets/imgs/logo_live_busy.png" *ngIf="getStatusById(message.sender)=='Busy'" class="status" alt="">
+                <img src="assets/imgs/logo_live_appear_offline.png" *ngIf="getStatusById(message.sender)=='AppearOffline'" class="status" alt="">
+                <img src="assets/imgs/logo_live_away.png" *ngIf="getStatusById(message.sender)=='Away'" class="status" alt="">
+                <b>{{getUserNickById(message.sender)}}</b> dice: 
+            </h6>
+            <hr/>
+            <ion-grid>
+              <ion-row>
+                <ion-col col-2>
+                    <img *ngIf="getUserPicById(message.sender)" src="{{getUserPicById(message.sender) || 'assets/imgs/generic_avatar.png'}}" class="avatarImg" />
+                </ion-col>
+                <ion-col col-8>
+                    <div>
+                        <p>
+                            <ion-thumbnail slot="start">
+                                <img src="{{message.content}}" />
+                            </ion-thumbnail>
+                         </p> 
+                    </div>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </div>
+
+          <div class="message" *ngIf="message.type== 'location'">
+              <h6>
+                  <img src="assets/imgs/logo_live_online.png" *ngIf="getStatusById(message.sender)=='Online'" class="status" alt="">
+                  <img src="assets/imgs/logo_live_offline.png" *ngIf="getStatusById(message.sender)=='Offline'" class="status" alt="">
+                  <img src="assets/imgs/logo_live_busy.png" *ngIf="getStatusById(message.sender)=='Busy'" class="status" alt="">
+                  <img src="assets/imgs/logo_live_appear_offline.png" *ngIf="getStatusById(message.sender)=='AppearOffline'" class="status" alt="">
+                  <img src="assets/imgs/logo_live_away.png" *ngIf="getStatusById(message.sender)=='Away'" class="status" alt="">
+                  <b>{{getUserNickById(message.sender)}}</b> dice: 
+              </h6>
+              <hr/>
+              <ion-grid>
+                <ion-row>
+                  <ion-col col-2>
+                      <img *ngIf="getUserPicById(message.sender)" src="{{getUserPicById(message.sender) || 'assets/imgs/generic_avatar.png'}}" class="avatarImg" />
+                  </ion-col>
+                  <ion-col col-8>
+                      <div>
+                          <p>
+                              <ion-icon name="pin" color="green"></ion-icon><span>>dice: {{message.content}}</span>
+                           </p> 
+                      </div>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </div>
+    </div>
+
+
+
+
+  <!-- <p>
+    {{friend.nick}}
+  </p>
+  <p>
+    {{status.name}}
+  </p> -->
+  <!-- <button ion-button (click)="goBack()">Regresar</button> -->
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-input type="text" [(ngModel)]="message" class="foolbarInput" (keyUp.enter)="sendMessage()" autofocus></ion-input>
+    <ion-buttons end>
+      <button ion-button icon-only color="royal" (click)="sendMessage()">
+        <ion-icon name="send"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,20 @@
+<!-- <div class="contactListItem" [ngClass]="{'contactOffline':user.status == 'Offline' || user.status=='AppearOffline'}" [ngStyle]="{'color':user.status == 'Offline' || user.status=='AppearOffline'?'red':'blue'}" *ngFor="let user of friends | search:query" (click)="goToConversation(user)">  
+  <img src="assets/imgs/logo_live_online.png" *ngIf="user.status=='Online'" class="status" alt="">
+  <img src="assets/imgs/logo_live_offline.png" *ngIf="user.status=='Offline'" class="status" alt="">
+  <img src="assets/imgs/logo_live_busy.png" *ngIf="user.status=='Busy'" class="status" alt="">
+  <img src="assets/imgs/logo_live_appear_offline.png" *ngIf="user.status=='AppearOffline'" class="status" alt="">
+  <img src="assets/imgs/logo_live_away.png" *ngIf="user.status=='Away'" class="status" alt="">
+  <b>{{user.nick}}</b>
+  <small *ngIf="user.status">{{user.status}}</small>
+</div> -->
+
+<div class="contactListItem" [ngClass]="{'contactOffline':friend.status == 'Offline' || friend.status=='AppearOffline'}" [ngStyle]="{'color':friend.status == 'Offline' || friend.status=='AppearOffline'?'red':'blue'}" *ngIf="friend" (click)="goToConversation(friend)">  
+    <img src="assets/imgs/logo_live_online.png" *ngIf="friend.status=='Online'" class="status" alt="">
+    <img src="assets/imgs/logo_live_offline.png" *ngIf="friend.status=='Offline'" class="status" alt="">
+    <img src="assets/imgs/logo_live_busy.png" *ngIf="friend.status=='Busy'" class="status" alt="">
+    <img src="assets/imgs/logo_live_appear_offline.png" *ngIf="friend.status=='AppearOffline'" class="status" alt="">
+    <img src="assets/imgs/logo_live_away.png" *ngIf="friend.status=='Away'" class="status" alt="">
+    <b>{{friend.nick}}</b>
+    <small *ngIf="friend.status">{{friend.status}}</small>
+  </div>
+  
