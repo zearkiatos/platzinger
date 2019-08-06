@@ -48,7 +48,7 @@
           <small *ngIf="user.status">{{user.status}}</small>
         </div> -->
         <div *ngFor="let user of model.user.friends">
-          {{user}}
+          <friend [uid]="user"></friend>
         </div>
   </div>
 

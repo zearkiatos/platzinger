@@ -26,6 +26,7 @@ import {AngularFirestore,AngularFirestoreCollection } from 'angularfire2/firesto
 import {AngularFireStorageModule} from 'angularfire2/storage';
 import { HttpClientModule } from '@angular/common/http';
 import {Vibration} from '@ionic-native/vibration';
+import { FriendComponent } from '../components/friend/friend';
 export const firebaseConfig = {
   apiKey: "AIzaSyBHCs_k9r54Rxah2R6PPAs1taYLFDvzyx0",
   authDomain: "platzinger-2ba00.firebaseapp.com",
@@ -45,7 +46,8 @@ export const firebaseConfig = {
     ProfilePage,
     AboutPage,
     SearchPipe,
-    RegisterPage
+    RegisterPage,
+    FriendComponent
   ],
   imports: [
     BrowserModule,
